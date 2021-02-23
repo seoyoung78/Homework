@@ -37,14 +37,18 @@ public class BankApplication {
 		System.out.println("계좌생성");
 		System.out.println("---------");
 		
+		System.out.print("계좌변호: ");
+		String ano = scanner.nextLine();
+		System.out.print("계좌주: ");
+		String owner = scanner.nextLine();
+		System.out.print("초기입금액: ");
+		int balance = scanner.nextInt();
+		
+		Account newA = new Account(ano, owner, balance);
+		
 		for (int i = 0; i <= accountArray.length; i++) {
 			if (accountArray[i] == null) {
-				System.out.print("계좌변호: ");
-				accountArray[i].setAno(scanner.nextLine());
-				System.out.print("계좌주: ");
-				accountArray[i].setOwner(scanner.nextLine());
-				System.out.print("초기입금액: ");
-				accountArray[i].setBalance(scanner.nextInt());
+				accountArray[i] = newA;
 				System.out.println("결과: 계좌가 생성되었습니다.");
 				break;
 			}
@@ -63,8 +67,7 @@ public class BankApplication {
 				System.out.println(accountArray[i].getAno() + "\t"
 									+ accountArray[i].getOwner() + "\t"
 									+ accountArray[i].getBalance());
-				} else {
-					continue;
+				} 
 			}
 		}
 	}
@@ -73,14 +76,18 @@ public class BankApplication {
 	private static void deposit() {
 		System.out.println("----------");
 		System.out.println("예금");
-		
 		System.out.println("---------");
 		System.out.println("계좌번호: ");
-		
-		Account a = findAccount(scanner.nextLine());
+		String ano = scanner.nextLine();
 		System.out.println("예금액: ");
-		a.setBalance(a.getBalance() + scanner.nextInt());
-				
+		int money = scanner.nextInt();
+		
+		Account account = findAccount(ano);	
+		if (account == null) {
+			System.out.println("결과: 일치하는 계좌가 없습니다.");
+		}
+		
+		account.setBalance(account.getBalance() + money);
 		System.out.println("결과: 예금이 성공되었습니다.");
 	}
 	
@@ -90,23 +97,32 @@ public class BankApplication {
 		System.out.println("출금");
 		System.out.println("---------");
 		System.out.println("계좌번호: ");
-		
-		Account a = findAccount(scanner.nextLine());
+		String ano = scanner.nextLine();
 		System.out.println("출금액: ");
-		a.setBalance(a.getBalance() - scanner.nextInt());
-				
+		int money = scanner.nextInt();
+		
+		Account account = findAccount(ano);
+		if (account == null) {
+			System.out.println("결과: 일치하는 계좌가 없습니다.");
+		}
+		
+		account.setBalance(account.getBalance() - money);
 		System.out.println("결과: 출금이 성공되었습니다.");
 		
 	}
 	
 	//Account 배열에서 ano와 동일한 Account 객체 찾기
 	private static Account findAccount (String ano) {
+		Account account = null;
 		for (int i = 0; i < accountArray.length; i++) {
-			if (accountArray == null) {
-				continue;
-			} else if (accountArray[i].getAno().equals(ano)) {
-				return accountArray[i];
+			if (accountArray[i] != null) {
+				String dbAno = accountArray[i].getAno();
+				if (dbAno.equals(ano)) {
+					account = accountArray[i];
+					break;
+				}
 			}
 		}
+		return account;
 	}
 }
