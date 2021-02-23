@@ -77,16 +77,10 @@ public class BankApplication {
 		System.out.println("---------");
 		System.out.println("계좌번호: ");
 		
-		for (int i = 0; i < accountArray.length; i++) {
-			if (accountArray == null) {
-				continue;
-			} else if (accountArray[i].getAno().equals(scanner.nextLine())) {
-				System.out.println("예금액: ");
-				accountArray[i].setBalance(accountArray[i].getBalance() + scanner.nextInt());
-				break;
-			}
-		}
-		
+		Account a = findAccount(scanner.nextLine());
+		System.out.println("예금액: ");
+		a.setBalance(a.getBalance() + scanner.nextInt());
+				
 		System.out.println("결과: 예금이 성공되었습니다.");
 	}
 	
@@ -97,15 +91,9 @@ public class BankApplication {
 		System.out.println("---------");
 		System.out.println("계좌번호: ");
 		
-		for (int i = 0; i < accountArray.length; i++) {
-			if (accountArray == null) {
-				continue;
-			} else if (accountArray[i].getAno().equals(scanner.nextLine())) {
-				System.out.println("출금액: ");
-				accountArray[i].setBalance(accountArray[i].getBalance() - scanner.nextInt());
-				break;
-			}
-		}
+		Account a = findAccount(scanner.nextLine());
+		System.out.println("출금액: ");
+		a.setBalance(a.getBalance() - scanner.nextInt());
 				
 		System.out.println("결과: 출금이 성공되었습니다.");
 		
@@ -114,7 +102,7 @@ public class BankApplication {
 	//Account 배열에서 ano와 동일한 Account 객체 찾기
 	private static Account findAccount (String ano) {
 		for (int i = 0; i < accountArray.length; i++) {
-			if (accountArray[i] == null) {
+			if (accountArray == null) {
 				continue;
 			} else if (accountArray[i].getAno().equals(ano)) {
 				return accountArray[i];
